@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -94,4 +97,58 @@ public abstract class BaseFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
     }
+
+    /***
+     * 以下是Fragment操作方法
+     * @param fragment
+     */
+
+    public void add(BaseFragment fragment) {
+        mActivity.add(fragment, true);
+    }
+
+    public void add(BaseFragment fragment, boolean addToBackStack) {
+        mActivity.add(fragment, addToBackStack);
+    }
+
+    public void replace(BaseFragment fragment) {
+        mActivity.replace(fragment, true);
+    }
+
+    public void replace(BaseFragment fragment, boolean addToBackStack) {
+        mActivity.replace(fragment, addToBackStack);
+    }
+
+    public void pop(){
+        mActivity.pop();
+    }
+
+    public void popTo(Class clazz){
+        mActivity.popTo(clazz);
+    }
+
+    public void popToTop() {
+        mActivity.popToTop();
+    }
+
+    public int getFragmentNum() {
+        return mActivity.getFragmentNum();
+    }
+
+    public BaseFragment getFragment() {
+        return mActivity.getFragment();
+    }
+
+    /**
+     * 显示Toast
+     * @param resId
+     */
+    public void showToast(@StringRes int resId) {
+        showToast(getResources().getString(resId));
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
 }

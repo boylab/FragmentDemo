@@ -1,6 +1,5 @@
 package com.boylab.fragmentdemo.fragment;
 
-import android.os.Bundle;
 import android.view.View;
 
 import com.boylab.fragmentdemo.R;
@@ -29,31 +28,41 @@ public class FragmentOne extends BaseFragment implements ActionView.IActionClick
 
     @Override
     public void onFront01() {
-        mActivity.addContent(new FragmentTwo(), true);
+        add(new FragmentTwo(), true);
     }
 
     @Override
     public void onFront02() {
-        mActivity.replaceContent(new FragmentTwo(), true);
+        add(new FragmentTwo(), false);
     }
 
     @Override
     public void onFront03() {
+        replace(new FragmentTwo(), true);
+    }
 
+    @Override
+    public void onFront04() {
+        replace(new FragmentTwo(), false);
     }
 
     @Override
     public void onBack01() {
-        mActivity.backTopFragment();
+        pop();
     }
 
     @Override
     public void onBack02() {
-
+        showToast("无功能");
     }
 
     @Override
     public void onBack03() {
+        popToTop();
+    }
+
+    @Override
+    public void onBack04() {
 
     }
 }

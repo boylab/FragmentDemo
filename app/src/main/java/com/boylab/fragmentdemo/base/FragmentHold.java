@@ -1,5 +1,6 @@
 package com.boylab.fragmentdemo.base;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -8,27 +9,26 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.boylab.fragmentdemo.R;
+import com.boylab.fragmentdemo.fragment.FragmentTwo;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
  * 专门管理Fragment加载、回退
  */
 public class FragmentHold extends AppCompatActivity {
-    private final int container = R.id.container;
 
-    private ArrayList<BaseFragment> fragments;// back fragment list.
+    private final int container = R.id.container;
+    private ArrayList<BaseFragment> fragments = new ArrayList<>();// back fragment list.
     private BaseFragment fragment;// current fragment.
 
     /**
-     * replace the current fragment.
-     *
-     * @param fragment       the new fragment to shown.
-     * @param addToBackStack if it can back.
+     * 加载Fragment页面（默认压栈）
+     * @param fragment
+     * @param addToBackStack
      */
-    public void addContent(BaseFragment fragment, boolean addToBackStack) {
-        initFragments();
-
+    public void add(BaseFragment fragment, boolean addToBackStack) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(container, fragment);
         if (addToBackStack) {
@@ -44,10 +44,13 @@ public class FragmentHold extends AppCompatActivity {
         setFragment();
     }
 
-    // use replace method to show fragment.
-    public void replaceContent(BaseFragment fragment, boolean addToBackStack) {
-        initFragments();
-
+    /**
+     * 用replace方式，加载Fragment页面（默认压栈）
+     * replace()、add()最终都是调用 doAddOp()方法
+     * @param fragment
+     * @param addToBackStack
+     */
+    public void replace(BaseFragment fragment, boolean addToBackStack) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(container, fragment);
         if (addToBackStack) {
@@ -62,11 +65,52 @@ public class FragmentHold extends AppCompatActivity {
         setFragment();
     }
 
-    public void backTopFragment() {
+    /**
+     * remove current fragment and back to front fragment.
+     */
+    public void pop(){
+        removePrevious();
+        setFragment();
+        getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * 弹出到指定压栈页面（注意：如果Class没有，将退回栈顶）
+     * @param clazz
+     */
+    public void popTo(Class clazz){
         if (fragments != null && fragments.size() > 1) {
-            removeContent();
-            backTopFragment();
+            if (!fragment.getClass().equals(clazz)){
+                pop();
+                popTo(clazz);
+            }
         }
+    }
+
+    /**
+     * 弹出到栈顶
+     */
+    public void popToTop() {
+        if (fragments != null && fragments.size() > 1) {
+            pop();
+            popToTop();
+        }
+    }
+
+    /**
+     * get amount of fragment.
+     * @return
+     */
+    public int getFragmentNum() {
+        return fragments != null ? fragments.size() : 0;
+    }
+
+    /**
+     * get the current fragment.
+     * @return
+     */
+    public BaseFragment getFragment() {
+        return fragment;
     }
 
     /**
@@ -81,33 +125,6 @@ public class FragmentHold extends AppCompatActivity {
     }
 
     /**
-     * get the current fragment.
-     *
-     * @return current fragment
-     */
-    public BaseFragment getFirstFragment() {
-        return fragment;
-    }
-
-    /**
-     * get amount of fragment.
-     *
-     * @return amount of fragment
-     */
-    public int getFragmentNum() {
-        return fragments != null ? fragments.size() : 0;
-    }
-
-    /**
-     * clear fragment list
-     */
-    protected void clearFragments() {
-        if (fragments != null) {
-            fragments.clear();
-        }
-    }
-
-    /**
      * remove previous fragment
      */
     private void removePrevious() {
@@ -117,28 +134,18 @@ public class FragmentHold extends AppCompatActivity {
     }
 
     /**
-     * init fragment list.
+     * clear fragment list
      */
-    private void initFragments() {
-        if (fragments == null) {
-            fragments = new ArrayList<>();
+    private void clearFragments() {
+        if (fragments != null) {
+            fragments.clear();
         }
-    }
-
-    /**
-     * remove current fragment and back to front fragment.
-     */
-    public void removeContent() {
-        removePrevious();
-        setFragment();
-
-        getSupportFragmentManager().popBackStackImmediate();
     }
 
     /**
      * remove all fragment from back stack.
      */
-    protected void removeAllStackFragment() {
+    protected void popAllFragment() {
         clearFragments();
         setFragment();
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -153,7 +160,7 @@ public class FragmentHold extends AppCompatActivity {
         showToast(getResources().getString(resId));
     }
 
-    private void showToast(String msg) {
+    public void showToast(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

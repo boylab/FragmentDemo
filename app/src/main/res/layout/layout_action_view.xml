@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="50dp">
+    android:padding="30dp">
 
     <Button
         android:id="@+id/btn_01"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="前进1"
-        android:textSize="22sp" />
+        android:text="添加并压栈"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_03"
@@ -17,8 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_01"
         android:layout_marginTop="20dp"
-        android:text="替换2"
-        android:textSize="22sp" />
+        android:text="添加不压栈"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_05"
@@ -26,16 +26,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_03"
         android:layout_marginTop="20dp"
-        android:text="前进3"
-        android:textSize="22sp" />
+        android:text="替换并压栈"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_07"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_05"
+        android:layout_marginTop="20dp"
+        android:text="替换不压栈"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_02"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="后退1"
-        android:textSize="22sp" />
+        android:text="返回"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_04"
@@ -44,8 +53,8 @@
         android:layout_below="@+id/btn_02"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:text="后退2"
-        android:textSize="22sp" />
+        android:text="返回次页"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_06"
@@ -54,7 +63,17 @@
         android:layout_below="@+id/btn_04"
         android:layout_alignParentRight="true"
         android:layout_marginTop="20dp"
-        android:text="后退3"
-        android:textSize="22sp" />
+        android:text="返回首页"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_08"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_06"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:text="后退4"
+        android:textSize="20sp" />
 
 </RelativeLayout>
