@@ -21,4 +21,40 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textview" />
 
+    <Button
+        android:id="@+id/btn_Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/actionView"
+        android:layout_marginTop="20dp"
+        android:text="跳转Fragment回调"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_Fragment"
+        android:layout_marginTop="20dp"
+        android:text="0"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_Fragment"
+        android:layout_marginTop="20dp"
+        android:text="跳转Activity回调"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_Activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_Activity"
+        android:layout_marginTop="20dp"
+        android:text="0"
+        android:textSize="20sp" />
+
 </RelativeLayout>

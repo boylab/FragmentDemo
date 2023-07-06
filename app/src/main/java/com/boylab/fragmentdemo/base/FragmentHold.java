@@ -1,17 +1,15 @@
 package com.boylab.fragmentdemo.base;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.boylab.fragmentdemo.R;
-import com.boylab.fragmentdemo.fragment.FragmentTwo;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +19,7 @@ public class FragmentHold extends AppCompatActivity {
 
     private final int container = R.id.container;
     private ArrayList<BaseFragment> fragments = new ArrayList<>();// back fragment list.
-    private BaseFragment fragment;// current fragment.
+    private BaseFragment mFragment;// current fragment.
 
     /**
      * 加载Fragment页面（默认压栈）
@@ -65,6 +63,41 @@ public class FragmentHold extends AppCompatActivity {
         setFragment();
     }
 
+    public void addForResult(BaseFragment fragment, String requestKey, FragmentResultListener listener) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (listener != null){
+            fragmentManager.setFragmentResultListener(requestKey, this.mFragment.getViewLifecycleOwner(), listener);
+        }
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.add(container, fragment);
+        ft.addToBackStack(null);
+
+        ft.commitAllowingStateLoss();
+        getSupportFragmentManager().executePendingTransactions();
+
+        fragments.add(fragment);
+        setFragment();
+    }
+
+
+    public void replaceForResult(BaseFragment fragment, String requestKey, FragmentResultListener listener) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (listener != null){
+            fragmentManager.setFragmentResultListener(requestKey, this.mFragment.getViewLifecycleOwner(), listener);
+        }
+
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(container, fragment);
+        ft.addToBackStack(null);
+
+        ft.commitAllowingStateLoss();
+        getSupportFragmentManager().executePendingTransactions();
+
+        fragments.add(fragment);
+        setFragment();
+    }
+
     /**
      * remove current fragment and back to front fragment.
      */
@@ -80,7 +113,7 @@ public class FragmentHold extends AppCompatActivity {
      */
     public void popTo(Class clazz){
         if (fragments != null && fragments.size() > 1) {
-            if (!fragment.getClass().equals(clazz)){
+            if (!mFragment.getClass().equals(clazz)){
                 pop();
                 popTo(clazz);
             }
@@ -109,8 +142,18 @@ public class FragmentHold extends AppCompatActivity {
      * get the current fragment.
      * @return
      */
-    public BaseFragment getFragment() {
-        return fragment;
+    public BaseFragment getmFragment() {
+        return mFragment;
+    }
+
+    public BaseFragment getFragment(Class clazz){
+        for (int i = 0; i < fragments.size() - 1; i++) {
+            BaseFragment fragment = fragments.get(i);
+            if (fragment.getClass().equals(clazz)){
+                return fragment;
+            }
+        }
+        return mFragment;    //找不到则返回当前Fragment
     }
 
     /**
@@ -118,9 +161,9 @@ public class FragmentHold extends AppCompatActivity {
      */
     private void setFragment() {
         if (fragments != null && fragments.size() > 0) {
-            fragment = fragments.get(fragments.size() - 1);
+            mFragment = fragments.get(fragments.size() - 1);
         } else {
-            fragment = null;
+            mFragment = null;
         }
     }
 

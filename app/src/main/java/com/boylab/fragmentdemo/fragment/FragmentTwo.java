@@ -1,14 +1,28 @@
 package com.boylab.fragmentdemo.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.boylab.fragmentdemo.R;
+import com.boylab.fragmentdemo.SecondActivity;
 import com.boylab.fragmentdemo.base.BaseFragment;
+import com.boylab.fragmentdemo.bean.ResultContract;
 import com.boylab.fragmentdemo.view.ActionView;
 
-public class FragmentTwo extends BaseFragment implements ActionView.IActionClick {
+public class FragmentTwo extends BaseFragment implements ActionView.IActionClick, View.OnClickListener {
 
     private ActionView actionView;
+    private Button btn_Fragment, btn_Activity;
+    private TextView text_Fragment, text_Activity;
 
     @Override
     protected int setRootView() {
@@ -19,6 +33,13 @@ public class FragmentTwo extends BaseFragment implements ActionView.IActionClick
     protected void initView(View rootView) {
         actionView = rootView.findViewById(R.id.actionView);
         actionView.setiActionClick(this);
+
+        btn_Fragment = rootView.findViewById(R.id.btn_Fragment);
+        btn_Activity = rootView.findViewById(R.id.btn_Activity);
+        text_Fragment = rootView.findViewById(R.id.text_Fragment);
+        text_Activity = rootView.findViewById(R.id.text_Activity);
+        btn_Fragment.setOnClickListener(this);
+        btn_Activity.setOnClickListener(this);
     }
 
     @Override
@@ -64,5 +85,36 @@ public class FragmentTwo extends BaseFragment implements ActionView.IActionClick
     @Override
     public void onBack04() {
 
+
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_Fragment){
+            addForResult(new FragmentThree(), "twoResult", new FragmentResultListener() {
+                @Override
+                public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                    Log.i(">>>boylab>>>", "onFragmentResult: "+requestKey);
+                    text_Fragment.setText("requestKey = "+requestKey);
+                    text_Fragment.append("\n");
+                    text_Fragment.append("key = "+result.getString("key"));
+
+                }
+            });
+        }else if (v.getId() == R.id.btn_Activity){
+            /**
+             * Fragment 跳转 Activity 并获得回调
+             */
+            Intent intent = new Intent(getContext(), SecondActivity.class);
+            activityLauncher.launch(intent);
+        }
+    }
+
+    private ActivityResultLauncher activityLauncher = registerForActivityResult(new ResultContract(), new ActivityResultCallback<ResultContract.ResultBean>(){
+
+        @Override
+        public void onActivityResult(ResultContract.ResultBean result) {
+            text_Activity.setText(result.toString());
+        }
+    });
 }

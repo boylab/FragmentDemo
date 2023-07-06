@@ -1,5 +1,6 @@
 package com.boylab.fragmentdemo.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.boylab.fragmentdemo.R;
@@ -63,6 +64,12 @@ public class FragmentThree extends BaseFragment implements ActionView.IActionCli
 
     @Override
     public void onBack04() {
-
+        /**
+         * Fragment返回上一页面传参
+         */
+        Bundle bundle = new Bundle();
+        bundle.putString("key", "hello three");
+        setFragmentResult("twoResult", bundle);
+        pop();
     }
 }

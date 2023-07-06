@@ -1,5 +1,6 @@
 package com.boylab.fragmentdemo.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 import com.boylab.fragmentdemo.R;
 import com.boylab.fragmentdemo.base.BaseFragment;
@@ -62,6 +63,12 @@ public class FragmentFour extends BaseFragment implements ActionView.IActionClic
 
     @Override
     public void onBack04() {
-
+        /**
+         * Fragment回调参数居然可以隔页面回调数据
+         */
+        Bundle bundle = new Bundle();
+        bundle.putString("key", "hello four");
+        setFragmentResult("twoResult", bundle);
+        pop();
     }
 }

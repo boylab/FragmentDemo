@@ -1,6 +1,5 @@
 package com.boylab.fragmentdemo.base;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -111,12 +110,24 @@ public abstract class BaseFragment extends Fragment {
         mActivity.add(fragment, addToBackStack);
     }
 
+    public void addForResult(BaseFragment fragment, String requestKey, FragmentResultListener listener) {
+        mActivity.addForResult(fragment, requestKey, listener);
+    }
+
     public void replace(BaseFragment fragment) {
         mActivity.replace(fragment, true);
     }
 
     public void replace(BaseFragment fragment, boolean addToBackStack) {
         mActivity.replace(fragment, addToBackStack);
+    }
+
+    public void replaceForResult(BaseFragment fragment, String requestKey, FragmentResultListener listener) {
+        mActivity.replaceForResult(fragment, requestKey, listener);
+    }
+
+    public void setFragmentResult(@NonNull String requestKey, @NonNull Bundle result){
+        mActivity.getSupportFragmentManager().setFragmentResult(requestKey, result);
     }
 
     public void pop(){
@@ -136,7 +147,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public BaseFragment getFragment() {
-        return mActivity.getFragment();
+        return mActivity.getmFragment();
     }
 
     /**
