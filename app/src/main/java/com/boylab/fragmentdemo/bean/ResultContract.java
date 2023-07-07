@@ -17,8 +17,16 @@ public class ResultContract extends ActivityResultContract<Intent, ResultContrac
 
     @Override
     public ResultBean parseResult(int resultCode, @Nullable Intent intent) {
-        String value = intent.getStringExtra("value");
-        return new ResultBean(resultCode, value);
+        /**
+         * 需要注意：
+         * 案件返回、intent对象为null
+         * 则返回的 ResultBean 也为空
+         */
+        if (intent != null){
+            String value = intent.getStringExtra("value");
+            return new ResultBean(resultCode, value);
+        }
+        return null;
     }
 
 

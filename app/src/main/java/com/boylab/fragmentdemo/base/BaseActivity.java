@@ -24,6 +24,12 @@ public class BaseActivity extends FragmentHold {
 //        window.setNavigationBarColor(Color.TRANSPARENT);
     }
 
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getmFragment().onActivityResult(requestCode, resultCode, data);
+    }*/
+
     /**
      * 监听返回动作
      */

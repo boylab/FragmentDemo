@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentResultListener;
 
 import com.boylab.fragmentdemo.R;
@@ -85,7 +86,6 @@ public class FragmentTwo extends BaseFragment implements ActionView.IActionClick
     @Override
     public void onBack04() {
 
-
     }
 
     @Override
@@ -114,7 +114,10 @@ public class FragmentTwo extends BaseFragment implements ActionView.IActionClick
 
         @Override
         public void onActivityResult(ResultContract.ResultBean result) {
-            text_Activity.setText(result.toString());
+            //Log.i(">>>boylab>>>", "onActivityResult: result = "+result);
+            if (result != null){
+                text_Activity.setText(result.toString());
+            }
         }
     });
 }
