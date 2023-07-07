@@ -90,6 +90,21 @@ activityLauncher.launch(intent);
 
 ```
 
+|  类型   | 方法  | 方法  |
+|--------------------------------------------|---------------------------------------------------|---------------------------------------------|
+| abstract <br />ActivityResultContract<I, ?>| getContract()									 | Get the {@link ActivityResultContract} <br/>that was used to create this launcher. |
+| abstract void								 | unregister()									 	 | Unregisters this launcher, <br/>releasing the underlying result callback, <br/>and any references captured within it. |
+| abstract void								 | launch(I input,<br/>ActivityOptionsCompat options)| Executes an {@link ActivityResultContract}. |
+| void										 | launch(I input)									 | Executes an {@link ActivityResultContract}. |
+
+
+类型	方法	描述
+Get the {@link ActivityResultContract} that was used to create this launcher.
+Unregisters this launcher, releasing the underlying result callback, and any references captured within it.
+Executes an {@link ActivityResultContract}.
+Executes an {@link ActivityResultContract}.
+
+
 ### 6、注意：在使用ActivityResultLauncher跳转页面并回调时，如果点击按键返回，回调的数据会出现空指针，所以需要做判空处理。
 
 
