@@ -93,7 +93,7 @@ activityLauncher.launch(intent);
 ### 6、注意：在使用ActivityResultLauncher跳转页面并回调时，如果点击按键返回，回调的数据会出现空指针，所以需要做判空处理。
 
 
-### 7、拓展：原始Fragment跳转Activity 页面数据回调思路，之前的项目就是这样做的，
+### 7、拓展：原始Fragment跳转Activity 页面数据回调思路，
 
 ```
 1、Activity 复写onActivityResult(),然后Activity分发并调用 Fragment中 onActivityResult()方法，
